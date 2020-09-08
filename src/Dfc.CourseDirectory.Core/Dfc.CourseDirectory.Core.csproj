@@ -39,5 +39,9 @@
     <EmbeddedResource Include="DataStore\CosmosDb\StoredProcedures\ArchiveApprenticeshipsForProvider.js" />
     <EmbeddedResource Include="DataStore\CosmosDb\StoredProcedures\ArchiveCoursesForProvider.js" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dfc.CourseDirectory.Database\Dfc.CourseDirectory.Database.csproj" />
+  </ItemGroup>
   
 </Project>

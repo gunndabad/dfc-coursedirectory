@@ -1,0 +1,18 @@
+<Project Sdk="MSBuild.Sdk.SqlProj/1.1.0">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <SqlServerVersion>SqlAzure</SqlServerVersion>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AllowSnapshotIsolation>True</AllowSnapshotIsolation>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="Restore\**" />
+    <None Remove="Scripts\**" />
+    <None Remove="Security\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Restore\**" />
+    <Content Remove="Scripts\**" />
+  </ItemGroup>
+</Project>
+

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using Dfc.CourseDirectory.Common.Settings;
+using Dfc.CourseDirectory.Core;
 using Dfc.CourseDirectory.Core.BackgroundWorkers;
 using Dfc.CourseDirectory.Core.BinaryStorageProvider;
 using Dfc.CourseDirectory.Core.ReferenceData.Ukrlp;
@@ -38,6 +39,7 @@ using Dfc.CourseDirectory.WebV2.Security;
 using GovUk.Frontend.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
@@ -66,6 +68,10 @@ namespace Dfc.CourseDirectory.Web
             _env = env;
             _logger = logger;
             Configuration = config;
+            if (env.IsDevelopment())
+            {
+                RunDatabaseMigrations(config["ConnectionStrings:DefaultConnection"], logger);
+            }
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -326,6 +332,12 @@ namespace Dfc.CourseDirectory.Web
 
                 endpoints.MapControllers();
             });
+        }
+
+        private static void RunDatabaseMigrations(string ConnectionString, ILogger logger)
+        {
+            var helper = new SqlDeployHelper();
+            helper.Deploy(ConnectionString, writeMessage: message => logger.LogInformation(message));
         }
     }
 }

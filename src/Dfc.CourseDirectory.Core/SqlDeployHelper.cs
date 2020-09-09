@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.IO;
+using System.Reflection;
 using Microsoft.SqlServer.Dac;
 
 namespace Dfc.CourseDirectory.Core
@@ -15,7 +16,10 @@ namespace Dfc.CourseDirectory.Core
 
             try
             {
-                using var dacpac = DacPackage.Load("Dfc.CourseDirectory.Database.dacpac");
+                var binFolder = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                const string dacpacFile = "Dfc.CourseDirectory.Database.dacpac";
+                var fullDacpacPath = Path.Combine(binFolder, dacpacFile);
+                using var dacpac = DacPackage.Load(fullDacpacPath);
 
                 var databaseName = GetDatabaseNameFromConnectionString();
 

@@ -15,17 +15,7 @@ namespace Dfc.CourseDirectory.Core
 
             try
             {
-                var dacpacLocation = Path.GetFullPath(Path.Combine(
-                    Environment.CurrentDirectory,
-                    "../../../../../src/Dfc.CourseDirectory.Database/bin",
-#if DEBUG
-                    "Debug",
-#else
-                    "Release",
-#endif
-                    "Dfc.CourseDirectory.Database.dacpac"));
-
-                using var dacpac = DacPackage.Load(dacpacLocation);
+                using var dacpac = DacPackage.Load("Dfc.CourseDirectory.Database.dacpac");
 
                 var databaseName = GetDatabaseNameFromConnectionString();
 

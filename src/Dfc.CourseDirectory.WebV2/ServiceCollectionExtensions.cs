@@ -152,10 +152,15 @@ namespace Dfc.CourseDirectory.WebV2
             services.Configure<ApprenticeshipBulkUploadSettings>(configuration.GetSection("ApprenticeshipBulkUpload"));
             services.AddTransient<ProviderContextHelper>();
 
-            services.AddAzureSearchClient<ProviderSearchQuery, Provider>(
+            services.AddAzureSearchClient<Provider>(
                 new Uri(configuration["AzureSearchUrl"]),
                 configuration["AzureSearchQueryKey"],
                 configuration["ProviderAzureSearchIndexName"]);
+
+            services.AddAzureSearchClient<Lars>(
+                new Uri(configuration["AzureSearchUrl"]),
+                configuration["AzureSearchQueryKey"],
+                configuration["LarsAzureSearchIndexName"]);
 
 #if DEBUG
             if (configuration["UseLocalFileMptxStateProvider"]?.Equals("true", StringComparison.OrdinalIgnoreCase) ?? false)

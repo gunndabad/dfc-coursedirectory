@@ -1,7 +1,8 @@
 pool:
-  name: NCS - CI and CD
-  demands:
-  - azureps
+  vmImage: windows-latest
+#  name: NCS - CI and CD
+#  demands:
+#  - azureps
 
 variables:
   ArmTemplateRoot: '$(Build.SourcesDirectory)\Dfc.CourseDirectory.FindACourseApi\Resources\ArmTemplates'
@@ -14,11 +15,11 @@ variables:
 resources:
   repositories:
   - repository: self
-  - repository: dfc-devops
-    type: github
-    name: SkillsFundingAgency/dfc-devops
-    endpoint: 'GitHub (ESFA)'
-    ref: refs/tags/v1.11.2
+#  - repository: dfc-devops
+#    type: github
+#    name: SkillsFundingAgency/dfc-devops
+#    endpoint: 'GitHub (ESFA)'
+#    ref: refs/tags/v1.11.2
 
 trigger:
   batch: true
@@ -38,18 +39,18 @@ workspace:
 
 steps:
 
-- task: UseGitVersion@5
-  displayName: GitVersion
-  inputs:
-    useConfigFile: true
-    configFilePath: ${{ variables.GitVersionConfigFilePath }}
-    versionSpec: '5.3.x'
-
-# ARM template
-- template: AzureDevOpsTemplates\Build\StepTemplates\dfc-arm-build.yml@dfc-devops
-  parameters:
-    ArmTemplateRoot: '${{ variables.ArmTemplateRoot }}'
-    SolutionBaseName: '${{ variables.SolutionBaseName }}'
+#- task: UseGitVersion@5
+#  displayName: GitVersion
+#  inputs:
+#    useConfigFile: true
+#    configFilePath: ${{ variables.GitVersionConfigFilePath }}
+#    versionSpec: '5.3.x'
+#
+## ARM template
+#- template: AzureDevOpsTemplates\Build\StepTemplates\dfc-arm-build.yml@dfc-devops
+#  parameters:
+#    ArmTemplateRoot: '${{ variables.ArmTemplateRoot }}'
+#    SolutionBaseName: '${{ variables.SolutionBaseName }}'
 
 # Remove the sqlproj from the solution otherwise `dotnet build Dfc.CourseDirectory.FindACourseApi.sln` explodes
 - powershell: |
